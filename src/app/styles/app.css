@@ -1,35 +1,35 @@
 body {
-    font: 12px sans-serif;
-    text-align: center;
-    margin: 20px;
+  font: 12px sans-serif;
+  text-align: center;
+  margin: 20px;
 }
 button {
-    border-radius: 5px;
-    color: #ffffff;
-    border: none;
-    padding: 8px 15px;
-    margin: 0 5px;
-    background-color: #18a0fb;
-    outline: none;
+  border-radius: 5px;
+  color: #ffffff;
+  border: none;
+  padding: 8px 15px;
+  margin: 0 5px;
+  background-color: #18a0fb;
+  outline: none;
 }
 button.outline {
-    color: #18a0fb;
-    background-color: white;
-    border: 1px solid #18a0fb;
+  color: #18a0fb;
+  background-color: white;
+  border: 1px solid #18a0fb;
 }
 button:focus {
-    box-shadow: inset 0 0 0 2px #18a0fb;
+  box-shadow: inset 0 0 0 2px #18a0fb;
 }
 input {
-    display: block;
-    width: 100%;
-    border: none;
-    outline: none;
-    padding: 8px;
+  display: block;
+  width: 100%;
+  border: none;
+  outline: none;
+  padding: 8px;
 }
 input:hover {
-    box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.1);
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.1);
 }
 input:focus {
-    box-shadow: inset 0 0 0 2px #18a0fb;
+  box-shadow: inset 0 0 0 2px #18a0fb;
 }
