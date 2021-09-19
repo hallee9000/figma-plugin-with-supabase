@@ -1,26 +1,38 @@
-figma.showUI(__html__);
+import {exportImage, init} from './helper';
 
-figma.ui.onmessage = (msg) => {
-    if (msg.type === 'create-rectangles') {
-        const nodes = [];
+figma.showUI(__html__, {
+    width: 280,
+    height: 400,
+});
 
-        for (let i = 0; i < msg.count; i++) {
-            const rect = figma.createRectangle();
-            rect.x = i * 150;
-            rect.fills = [{type: 'SOLID', color: {r: 1, g: 0.5, b: 0}}];
-            figma.currentPage.appendChild(rect);
-            nodes.push(rect);
-        }
+init();
 
-        figma.currentPage.selection = nodes;
-        figma.viewport.scrollAndZoomIntoView(nodes);
+figma.ui.onmessage = async (msg) => {
+    switch (msg.type) {
+        case 'ui:set-auth':
+            await figma.clientStorage.setAsync('supabase.auth', msg.auth);
+            break;
 
-        // This is how figma responds back to the ui
-        figma.ui.postMessage({
-            type: 'create-rectangles',
-            message: `Created ${msg.count} Rectangles`,
-        });
+        case 'ui:clear-auth':
+            await figma.clientStorage.setAsync('supabase.auth', void 0);
+            break;
+
+        case 'ui:get-avatar':
+            const avatar = figma.currentPage.selection[0];
+            if (avatar) {
+                const avatarData = await exportImage(avatar);
+                figma.ui.postMessage({
+                    type: 'bg:get-avatar',
+                    message: {avatarData},
+                });
+            } else {
+                figma.notify('Please select at least one element.');
+            }
+            break;
+
+        default:
+            break;
     }
 
-    figma.closePlugin();
+    // figma.closePlugin();
 };
