@@ -95,17 +95,24 @@ class SupabaseClient {
     }
   }
 
-  // TODO: signUp
-  // async signUp (data) {
-  //   const auth = await fetch(this.apiUrl + authUri + '/signup', {
-  //     method: 'POST',
-  //     headers: this.headers,
-  //     body: JSON.stringify(data)
-  //   })
-  //     .then(res => res.json())
+  async signUp(data) {
+    const auth = await fetch(this.apiUrl + authUri + '/signup', {
+      method: 'POST',
+      headers: this.headers,
+      body: JSON.stringify(data),
+    }).then((res) => res.json());
 
-  //   console.log(auth)
-  // }
+    if (!auth.user) {
+      return {data: null, error: auth};
+    } else {
+      const now = new Date().getTime() / 1000;
+      const authData = {...auth, expires_at: Math.floor(now + auth.expires_in)};
+
+      // Logged in, initialize auth data
+      this._initializeAuth(authData);
+      return {data: authData, error: null};
+    }
+  }
 
   async signIn(data) {
     const url = `/token?grant_type=${data.email ? 'password' : 'refresh_token'}`;
